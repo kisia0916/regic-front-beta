@@ -20,6 +20,7 @@ function LoginPageMain() {
                 jwtToken:""
             }).then((res)=>{
                 setLoginState(true)
+                console.log(res.data.token)
                 setCookie("jwt_token",res.data.token,{
                     httpOnly:true
                 })
