@@ -65,6 +65,9 @@ function WorkSpaceMain() {
         if (event.key === "Enter"){
             socket.emit("run_command",{token:cookies.jwt_token,command:userInput,machineId:firstLog.machineId})
         }
+        if (event.ctrlKey){
+            socket.emit("run_command",{token:cookies.jwt_token,command:"ctrlC",machineId:firstLog.machineId})
+        }
     }
   return (
     <div className='WorkSpaceMain'>
