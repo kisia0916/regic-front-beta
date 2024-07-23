@@ -23,7 +23,7 @@ function App() {
             <Routes>
               <Route  path="/login" element={<LoginPage/>}/>
               <Route  path="/home" element={loginState?<Home/>:<Navigate replace to="/login"/>}/>
-              <Route  path="/workspace" element={loginState?<WorkSpacePage/>:<LoginPage/>}/>
+              <Route  path="/workspace" element={loginState?<WorkSpacePage/>:<Navigate replace to="/login"/>}/>
               <Route  path="/test" element={<WorkSpacePage/>}/>
             </Routes> 
           </BrowserRouter>
