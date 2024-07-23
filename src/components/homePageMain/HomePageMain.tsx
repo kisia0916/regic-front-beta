@@ -27,8 +27,8 @@ function HomePageMain() {
             alert(data)
             })
             socket.on("new_process_created",(data:any)=>{
-                console.log(decoder.decode(data.data as Uint8Array))
-                firstLog.setFirstLog(decoder.decode(data.data as Uint8Array))
+                console.log(data.data)
+                firstLog.setFirstLog(data.data)
                 firstLog.setMachineId(data.machineId)
                 setNavigateContent(<Navigate replace to="/workspace"/>)
             })
