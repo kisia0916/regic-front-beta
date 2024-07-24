@@ -65,11 +65,11 @@ function HomePageMain() {
         <span>setting token:<input type='text' value={machineSettingToken}></input></span><br/>
         <span>Online hosts</span><br/>
         {isOnline?machineList?.onlineRemoteMachine.map((i:onlineRemoteMachineInterface)=>{
-            return <MachineItem key={i.machineId} machineId={i.machineId} machineName={i.machineName}/>
+            return <MachineItem key={i.machineId} machineId={i.machineId} machineName={i.machineName} isOnline={true}/>
         }):<span>None<br/></span>}
         <span>All hosts</span>
         {machineList?.allRemoteMachine.map((i:RemoteMachineInterfaceMain)=>{
-            return <MachineItem key={i.machineId} machineId={i.machineId} machineName={i.machineName}/>
+            return <MachineItem key={i.machineId} machineId={i.machineId} machineName={i.machineName} isOnline={false}/>
         })}
         {navigateContent}
     </div>
