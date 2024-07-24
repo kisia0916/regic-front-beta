@@ -21,6 +21,7 @@ function App() {
         <LoginStateContext.Provider value={setLoginState}>
           <BrowserRouter>
             <Routes>
+              <Route  path="/" element={<LoginPage/>}/>
               <Route  path="/login" element={<LoginPage/>}/>
               <Route  path="/home" element={loginState?<Home/>:<Navigate replace to="/login"/>}/>
               <Route  path="/workspace" element={loginState?<WorkSpacePage/>:<Navigate replace to="/login"/>}/>
