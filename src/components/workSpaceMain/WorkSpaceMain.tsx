@@ -7,6 +7,7 @@ import "./xterm.css"
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit'
 import { Navigate } from 'react-router-dom'
+import {jwtDecode} from "jwt-decode"
 
 // let isFirst:boolean = true
 
@@ -21,10 +22,13 @@ function WorkSpaceMain() {
     const [cookies,setCookie] = useCookies()
     const [termContent,setTermContent] = useState<string>(firstLog.firstLog)
     const [moveElement,setMoveElement] = useState<any>(<></>)
+    const mainUserId = useRef<string>("")
     const resizeFlg = useRef<boolean>(true)
     useEffect(()=>{
         if (firstFlg.current){
             firstFlg.current = false
+            const decodedToken:any = jwtDecode(cookies.jwt_token)
+            mainUserId.current = decodedToken.userId
             const term:any = new Terminal()
             const fitAdd:any = new FitAddon()
             term.loadAddon(fitAdd)
@@ -34,7 +38,7 @@ function WorkSpaceMain() {
             socket.emit("resize_term",{token:cookies.jwt_token,size:[fitAdd._terminal.cols,fitAdd._terminal.rows],machineId:firstLog.machineId})
             term.onKey((e:any)=>{
                 console.log(e.key)
-                socket.emit("run_command",{token:cookies.jwt_token,command:e.key,machineId:firstLog.machineId})
+                socket.emit("run_command",{userId:mainUserId.current,command:e.key,machineId:firstLog.machineId})
             })
             socket.on("process_result",(result:any)=>{
                 term.write(result.data.data)
