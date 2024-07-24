@@ -8,6 +8,8 @@ import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit'
 import { Navigate } from 'react-router-dom'
 import {jwtDecode} from "jwt-decode"
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
 
 // let isFirst:boolean = true
 
@@ -24,8 +26,10 @@ function WorkSpaceMain() {
     const [moveElement,setMoveElement] = useState<any>(<></>)
     const mainUserId = useRef<string>("")
     const resizeFlg = useRef<boolean>(true)
+    const handle = useFullScreenHandle();
     useEffect(()=>{
         if (firstFlg.current){
+            handle.enter()
             firstFlg.current = false
             const decodedToken:any = jwtDecode(cookies.jwt_token)
             mainUserId.current = decodedToken.userId
@@ -63,12 +67,12 @@ function WorkSpaceMain() {
         }
     },[])
   return (
-    <>
+    <FullScreen handle={handle}>
         <div id='terminal'>
             
         </div>
         {moveElement}
-    </>
+    </FullScreen>
   )
 }
 

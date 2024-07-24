@@ -7,6 +7,7 @@ import WorkSpacePage from './pages/WorkSpacePage';
 import { serverURL } from './apiinfo';
 import {io} from "socket.io-client"
 
+
 export const LoginStateContext:any = createContext("")
 export const SocketContext:any = createContext("")
 export const SetFirstLogContext:any = createContext("")
@@ -15,6 +16,7 @@ function App() {
   const [loginState,setLoginState] = useState<Boolean>(false)
   const [firstLog,setFirstLog] = useState<string>("")
   const [machineId,setMachineId] = useState<string>("")
+
   return(
     <SetFirstLogContext.Provider value={{machineId:machineId,setMachineId:setMachineId,firstLog:firstLog,setFirstLog:setFirstLog}}>
       <SocketContext.Provider value={socket}>
