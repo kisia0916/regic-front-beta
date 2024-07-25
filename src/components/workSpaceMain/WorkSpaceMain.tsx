@@ -27,9 +27,9 @@ function WorkSpaceMain() {
     const mainUserId = useRef<string>("")
     const resizeFlg = useRef<boolean>(true)
     const handle = useFullScreenHandle();
+    const [hideFullScreenButton,setHideFullScreenButton] = useState<string>("none")
     useEffect(()=>{
         if (firstFlg.current){
-            handle.enter()
             firstFlg.current = false
             const decodedToken:any = jwtDecode(cookies.jwt_token)
             mainUserId.current = decodedToken.userId
@@ -64,15 +64,30 @@ function WorkSpaceMain() {
                     resizeFlg.current = true
                 }
             })
+            document.addEventListener("keydown",(event)=>{
+                console.log(event.key)
+                if (event.ctrlKey && event.key === "Shift"){
+                    setHideFullScreenButton((now:string)=>{
+                        if (now === "none"){
+                            return "block"
+                        }else{
+                            return "none"
+                        }
+                    })
+                }
+            })
         }
     },[])
   return (
-    <FullScreen handle={handle}>
-        <div id='terminal'>
-            
-        </div>
-        {moveElement}
-    </FullScreen>
+    <>
+        <button onClick={handle.enter} style={{display:hideFullScreenButton}}>fullscreen</button>
+        <FullScreen handle={handle}>
+            <div id='terminal'>
+                
+            </div>
+            {moveElement}
+        </FullScreen>
+    </>
   )
 }
 
