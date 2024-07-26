@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { SetFirstLogContext, SocketContext } from '../../App'
 import "./WorkSpaceMain.css"
@@ -28,6 +27,7 @@ function WorkSpaceMain() {
     const resizeFlg = useRef<boolean>(true)
     const handle = useFullScreenHandle();
     const [hideFullScreenButton,setHideFullScreenButton] = useState<string>("none")
+
     useEffect(()=>{
         if (firstFlg.current){
             firstFlg.current = false
@@ -45,8 +45,8 @@ function WorkSpaceMain() {
                 socket.emit("run_command",{userId:mainUserId.current,command:e.key,machineId:firstLog.machineId})
             })
             socket.on("process_result",(result:any)=>{
-                term.write(result.data.data)
-                console.log(result.data.data)
+				term.write(result.data.data)
+				console.log(result.data.data)
             })
             socket.on("disconnect_remote_machine",(data:{machineId:string})=>{
                 alert("remote machine is offline")
@@ -64,17 +64,20 @@ function WorkSpaceMain() {
                     resizeFlg.current = true
                 }
             })
-            document.addEventListener("keydown",(event)=>{
-                console.log(event.key)
+            document.addEventListener("keydown",async(event)=>{
                 if (event.ctrlKey && event.key === "Shift"){
-                    setHideFullScreenButton((now:string)=>{
-                        if (now === "none"){
-                            return "block"
-                        }else{
-                            return "none"
-                        }
-                    })
+						setHideFullScreenButton((now:string)=>{
+							if (now === "none"){
+								return "block"
+							}else{
+								return "none"
+							}
+						})
                 }
+				if (event.shiftKey && event.key === "Control"){
+					const clipData = await navigator.clipboard.readText()
+					socket.emit("run_command",{userId:mainUserId.current,command:clipData,machineId:firstLog.machineId})		
+				}
             })
         }
     },[])
