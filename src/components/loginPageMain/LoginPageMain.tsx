@@ -21,9 +21,7 @@ function LoginPageMain() {
             }).then((res)=>{
                 setLoginState(true)
                 console.log(res.data.token)
-                setCookie("jwt_token",res.data.token,{
-                    httpOnly:true
-                })
+                setCookie("jwt_token",res.data.token)
                 setRedirectFlg(true)
             }).catch((error)=>console.log(error))
         }
